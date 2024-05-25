@@ -278,9 +278,12 @@ if __name__ == '__main__':
         train(epoch)
 
 
-
-
         acc= eval_training(epoch)
+
+
+        np.savez(os.path.join(folder_path, 'loss.npz'),
+                 my_train_loss = my_train_loss, my_eval_loss = my_eval_loss,
+                 my_train_correct = my_train_correct,my_eval_correct = my_eval_correct )
 
         #start to save best performance model after learning rate decay to 0.01
         if epoch <= settings.MILESTONES[3] and best_acc < acc:
@@ -297,7 +300,7 @@ if __name__ == '__main__':
     folder_path = folder_path
 
     # 保存 label 和 pro 到一个文件
-    np.savez(os.path.join(folder_path, 'loss.npz'),
+    np.savez(os.path.join(folder_path, 'loss1.npz'),
              my_train_loss = my_train_loss, my_eval_loss = my_eval_loss,
              my_train_correct = my_train_correct,my_eval_correct = my_eval_correct )
     print('my_train_loss:',my_train_loss)
