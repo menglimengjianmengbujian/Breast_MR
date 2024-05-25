@@ -29,11 +29,6 @@ savenii_path 存放新生成的nii文件
 
 def dcm2nii(dcmdir_path, mask_path, savenii_path):
     # 1.构建dicom序列文件阅读器，并执行（即将dicom序列文件“打包整合”）
-    label_nii = sitk.ReadImage(mask_path)
-
-    label_array = sitk.GetArrayFromImage(label_nii)
-    label_array = F.interpolate(torch.tensor(label_array, dtype=torch.float32).unsqueeze(0), size=(672, 672),
-                                mode='nearest').squeeze().numpy().astype(np.uint8)
 
     reader = sitk.ImageSeriesReader()
     dicom_names = reader.GetGDCMSeriesFileNames(dcmdir_path)
@@ -41,6 +36,14 @@ def dcm2nii(dcmdir_path, mask_path, savenii_path):
     image2 = reader.Execute()
     # 2.将整合后的数据转为array，并获取dicom文件基本信息
     image_array = sitk.GetArrayFromImage(image2)  # z, y, x
+    shape = image_array[0, :, :].shape
+    
+    label_nii = sitk.ReadImage(mask_path)
+
+    label_array = sitk.GetArrayFromImage(label_nii)
+    label_array = F.interpolate(torch.tensor(label_array, dtype=torch.float32).unsqueeze(0), size=shape,
+                                mode='nearest').squeeze().numpy().astype(np.uint8)
+    
     # 将数组中所有的数值都变为1
     image_array = np.ones_like(image_array)
     label = image_array * label_array
