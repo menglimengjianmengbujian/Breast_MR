@@ -16,6 +16,7 @@
 新建一个保存转化后的nii文件加,转化后的文件夹形式
 处理后原始图像nii文件夹
 良性转化后的文件夹
+
     ├─DCENII
     │  ├─ZHANGE_SAN.nii  #转化后的文件只有姓名通过“_"连接姓氏
     │  ├─LI_SI.nii
@@ -24,6 +25,7 @@
 
 ## 3.2然后与勾画好的nii标签进行特征提取（radiomics特征提取.py）：
 良性文件夹
+
     ├─DCENII       #是通过dcm文件转化而来
     │  ├─ZHANGE_SAN.nii
     │  ├─LI_SI.nii
@@ -32,6 +34,7 @@
     │  ├─ZHANGE_SAN-label.nii   #中间必须通过”-“连接，表示label的nii
     │  ├─LI_SI-label.nii
 恶行文件夹
+
     ├─DCENII
     │  ├─ZHANGE_SAN.nii
     │  ├─LI_SI.nii
