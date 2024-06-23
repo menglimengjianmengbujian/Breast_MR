@@ -16,7 +16,7 @@ import nibabel as nib
 import random
 
 """
-这个脚本只能处理良性文件夹或恶性文件夹，需要运行两次，良性一次，恶性一次，另外需要修改label为0或1
+这个脚本需要将良性和恶性的数据路径修改好，然后会保存到h5文件中，修改label为0或1
 
 
 可以将良性或恶性文件夹下的DCE和T2的数据，CSV的数据还有label数据保存到h5文件中
@@ -26,8 +26,12 @@ image_T2_path文件夹存储着所有T2序列原始图像的nii文件
 label_path文件夹存储着所有掩膜图像的nii文件
 save_dir文件夹存储着所有处理后的图像h5文件
 csv_file 为pyradiomics特征提取后的csv文件路径，注意要删除里面没意义的列
-name_labbel = 0 为良性或恶性的标签
+name_labbel = 0 或1 为良性或恶性的标签
 一定要删除csv中字符串部分，不然会报错
+
+在204-208行有两种图像保存方法，concat_image函数是将原始图像的边缘抠下来，然后利用插值算法缩放到224×224；
+ one_three函数是在mask上找到中心点映射到原始图像上，以中心点为坐标裁剪为224×224
+ 使用其中一种即可
 """
 
 
@@ -35,20 +39,20 @@ name_labbel = 0 为良性或恶性的标签
 image_benign_DCE_path = r'C:\Users\Administrator\Desktop\Breast\benign\DCE'
 image_benign_T2_path = r'C:\Users\Administrator\Desktop\Breast\benign\T2'
 
-label_benign_path = r'C:\Users\Administrator\Desktop\Breast\benign_label'
+label_benign_path = r'C:\Users\Administrator\Desktop\Breast\benign_label\DCE'
 # CSV文件地址
-csv_benign_file = r"C:\Users\Administrator\Desktop\Breast\benign_normalized.csv"
+csv_benign_file = r"C:\Users\Administrator\Desktop\Breast\benignDCET2_Stand_MinMaxScaler.csv"
 label0 = 0
 
 
 image_malignant_DCE_path = r'C:\Users\Administrator\Desktop\Breast\malignant\DCE'
 image_malignant_T2_path = r'C:\Users\Administrator\Desktop\Breast\malignant\T2'
 
-label_malignant_path = r'C:\Users\Administrator\Desktop\Breast\malignant_label'
-csv_malignant_file = r"C:\Users\Administrator\Desktop\Breast\malignant_normalized.csv"  # CSV文件地址
+label_malignant_path = r'C:\Users\Administrator\Desktop\Breast\malignant_label\DCE'
+csv_malignant_file = r"C:\Users\Administrator\Desktop\Breast\malignantDCET2_Stand_MinMaxScaler.csv" # CSV文件地址
 label1 = 1
 
-save_dir = r'C:\Users\Administrator\Desktop\Breast\data'
+save_dir = r"C:\Users\Administrator\Desktop\临时"
 
 
 # 定义一个函数来修剪图像，去除空白部分
@@ -157,7 +161,7 @@ def concat_image(label_path,image_path , map = False):
 
     return output_bilinear_corners_True_array
 
-
+# 保存影像组特征
 def get_features_by_name(name, csv_file):
     """
     根据姓名获取到csv文件中的同名那一行数据，保存这行第二列之后的数据
@@ -201,11 +205,11 @@ def save_data(image_DCE_path,image_T2_path,label_path,label,csv_file):
 
             # 读取原始图像
 
-            image_DCE = concat_image(label_path1, DCE_path,map = False)
-            image_T2 = concat_image(label_path1, T2_path ,map =  True)
+            # image_DCE = concat_image(label_path1, DCE_path,map = False)
+            # image_T2 = concat_image(label_path1, T2_path ,map =  True)
 
-            # image_DCE = one_three(label_path1, DCE_path)
-            # image_T2 = one_three(label_path1, T2_path , map = True)
+            image_DCE = one_three(label_path1, DCE_path)
+            image_T2 = one_three(label_path1, T2_path , map = True)
 
             name_labbel =  name.split('.')[0]
             csv_data =  get_features_by_name(name_labbel, csv_file)
