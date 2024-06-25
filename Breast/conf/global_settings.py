@@ -11,9 +11,8 @@ from datetime import datetime
 CHECKPOINT_PATH = 'checkpoint'
 
 #total training epoches
-EPOCH=1000
-
-MILESTONES = [100,300,400,1000]
+EPOCH=100
+MILESTONES = [10,30,40,100]
 
 #initial learning rate
 #INIT_LR = 0.1
