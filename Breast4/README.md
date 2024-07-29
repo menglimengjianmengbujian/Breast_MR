@@ -1,7 +1,8 @@
+# Breast4是用于预测浸润性乳腺癌Ki-67的低表达和高表达，使用了T1WI、T2WI、DCE和DWI序列。在训练的过程中，由于数据量较少，使用了五折交叉验证。网络使用的还是Resnet50，Vit也跑通了。
 # 一 安装相关依赖，按照requirements.txt来
 # 二 数据集良性和恶性的数据放到 dataset里面
 # 三 运行prepare文件夹下的脚本
-
+这个流程还是和Breast3的一样，只不过是过了一个DWI序列，图就没有重新画了，能理解就行。
 ![流程图](C:\Users\Administrator\Desktop\流程图.png)
 
 
@@ -55,6 +56,9 @@
 注：如果做多序列任务，勾画了一个序列的ROI，怎可以根据这个ROI序列，映射到其他序列生成mask标签（mask映射新的mask.py），然后与对应的原始图像进行特征提取，进行3.4步骤
 # 四 要训练就运行train_fusion(concat).py
     修改好argparse中的参数
+    训练的流程图
+    ![流程图](https://github.com/user-attachments/assets/bb140d3b-99cf-4915-9c33-5976fb1417c6)
+
 # 五 要测试就运行test(concat).py
     修改好保存的模型路径和测试集的路径 
 如要测试不同的输入融合的结果，修改MF/dataset.py，注释掉相应的项就可以了
