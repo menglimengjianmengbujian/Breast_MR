@@ -56,8 +56,8 @@
 注：如果做多序列任务，勾画了一个序列的ROI，怎可以根据这个ROI序列，映射到其他序列生成mask标签（mask映射新的mask.py），然后与对应的原始图像进行特征提取，进行3.4步骤
 # 四 要训练就运行train_fusion(concat).py
     修改好argparse中的参数
-    训练的流程图
-    ![流程图](https://github.com/user-attachments/assets/bb140d3b-99cf-4915-9c33-5976fb1417c6)
+训练的流程图
+![流程图](https://github.com/user-attachments/assets/bb140d3b-99cf-4915-9c33-5976fb1417c6)
 
 # 五 要测试就运行test(concat).py
     修改好保存的模型路径和测试集的路径 
