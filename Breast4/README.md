@@ -3,7 +3,8 @@
 # 二 数据集良性和恶性的数据放到 dataset里面
 # 三 运行prepare文件夹下的脚本
 这个流程还是和Breast3的一样，只不过是过了一个DWI序列，图就没有重新画了，能理解就行。
-![流程图](C:\Users\Administrator\Desktop\流程图.png)
+![流程图1](https://github.com/user-attachments/assets/f6f89202-1e30-44ee-8876-a886b1d9157e)
+
 
 
 
